@@ -1,2 +1,4 @@
 *.pem
 *.crx
+*.zip
+wpcext/
