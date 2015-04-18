@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="WPC Streamer List">
+
+  <!-- Le styles -->
+  <link href="css/bootstrap.css" rel="stylesheet">
+  <link href="css/custom.css" rel="stylesheet">
+</head>
+<body>
+  <div class="tabbable tabs-top">
+    <ul id="menu" class="nav nav-tabs">
+
+      <li><a class="menutab hovmenu" id="nav_stream" title="Streams and VODs" title="News" href="#streams_vods" data-toggle="tab"><i class="icon-play"></i></a></li>
+      <li><a class="menutab hovmenu" id="nav_sett" title="Settings" href="#settings" data-toggle="tab"><i class="icon-wrench"></i></a></li>
+      <li><a class="menutab" id="nav_update" title="Refresh" href="#"><i class="icon-refresh"></i></a></li>
+    </ul>
+  </div>
+  <div class="tab-content">
+
+
+    <!-- ========================= Streams/VODs Tab ========================= -->
+    <div class="tab-pane alignborder" id="streams_vods">
+      <ul class="nav nav-tabs">
+        <li class="active"><a class="submenu sub-tabs-top ph-tabstop ph-tableft" data-toggle="tab" href="#streams">Live Streams</a></li>
+        <li><a class="submenu sub-tabs-top ph-tabstop" data-toggle="tab" href="#upcoming">Upcoming</a></li>
+
+      </ul>
+      <div class="tab-content">
+        <div class="tab-pane active" id="streams">
+          <table id="streamList" class="table table-hover table-condensed">
+            <tbody class="listload" id="tbody_streams">
+              <tr class="gif"></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="tab-pane" id="upcoming">
+          <table id="upcomingList" class="table table-hover table-condensed">
+            <tbody class="listload" id="tbody_upcoming">
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========================= SETTIGNS ==================== -->
+    <div class="accordion tab-pane" id="settings">
+      <div class="accordion-group">
+        <div class="accordion-heading">
+          <a class="accordion-toggle" data-toggle="collapse" data-parent="#settings" href="#settingsOne">Settings</a>
+        </div>
+        <div id="settingsOne" class="accordion-body collapse in">
+          <div class="accordion-inner">
+            <table id="settingsList" class="table table-condensed">
+              <tbody>
+                <tr>
+                  <td>Time Format</td>
+                  <td><div class="btn-group" data-toggle="buttons-radio">
+                      <button id="twfh" alt="H:MM Z" type="button" class="btn btn-info btn-small timeformat">24h</button>
+                      <button id="PM" alt="h:MMTT Z" type="button" class="btn btn-info btn-small timeformat">PM</button>
+                  </div></td>
+                </tr>
+                <tr>
+                  <td>Date Format</td>
+                  <td><div class="btn-group" data-toggle="buttons-radio">
+                      <button id="dateInt" alt="d/mm/yyyy" type="button" class="btn btn-info btn-small dateformat">DD/MM/YYYY</button>
+                      <button id="dateUS" alt="mm/d/yyyy" type="button" class="btn btn-info btn-small dateformat">MM/DD/YYYY</button>
+                  </div></td>
+                </tr>
+                <tr>
+                  <td>Streams Popout</td>
+                  <td><div class="btn-group" data-toggle="buttons-radio">
+                      <button id="spTrue" data-ispopout="true" type="button" class="btn btn-info btn-small spformat">On</button>
+                      <button id="spFalse" data-ispopout="false" type="button" class="btn btn-info btn-small spformat">Off</button>
+                  </div></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="accordion-group">
+        <div class="accordion-heading">
+          <a class="accordion-toggle" data-toggle="collapse" data-parent="#settings" href="#settingsFour"><i class="icon-info-sign"></i>&nbsp;About</a>
+        </div>
+        <div id="settingsFour" class="accordion-body collapse">
+          <div class="accordion-inner">
+            <table class="about">
+              <tbody>
+                <tr>
+                  <td><b>Version:</b></td>
+                  <td>0.1 - <a href="https://github.com/superbahbi/wpcext" target="_blank">View changelog</a></td>
+                </tr>
+                <tr>
+                  <td><b>Author:</b></td>
+                  <td>Bahbi Lee</td>
+                </tr>
+                <tr>
+                  <td><b>Contact:</b></td>
+                  <td><a target="_blank" href="mailto:bahbi@bahbi.net">bahbi@bahbi.net</a></td>
+                </tr>
+                <tr>
+                  <td><b>Contribute:</b></td>
+                  <td><a target="_blank" href="https://github.com/superbahbi/wpcext.git">Star this at GitHub</a></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="js/vendor/jquery-2.0.3.min.js"></script>
+  <script src="js/vendor/bootstrap.js"></script>
+  <script src="js/vendor/date.format.js"></script>
+  <script src="js/wpc.js"></script>
+</body>
+</html>
