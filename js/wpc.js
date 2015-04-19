@@ -10,7 +10,7 @@
 		error: function() {
 		  $('.gif').attr('class', 'err').html("You need to <a href='" + wpcext.config.exturl + "'>upgrade</a>. Click refresh to " +
 			  "retry. If problems persist contact me as soon as possible: <a href='mailto:" +
-			  wpcext.config.email + "'>" + "bahbi@babbi.net</a>");
+			  wpcext.config.email + "'>" + "wpcext@babbi.net</a>");
 		}
 	});
 
