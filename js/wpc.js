@@ -18,7 +18,7 @@
     config: {
       version: "0.1",
       browser: "chrome",
-      email: "bahbi@bahbi.net",
+      email: "wpcext@bahbi.net",
       exturl: ""
     },
     settings: {
@@ -101,19 +101,14 @@
 		$.each(sorted, function(i){
 			streams += 
 			"<tr href="+sorted[i].url+
-				" data-id="+sorted[i].username+" class='wpcrow streams'"+
-				" title="+sorted[i].title+
-				
-			"</td>"+
+				" data-id="+sorted[i].id+" class='wpcrow streams'"+
+				" title='"+sorted[i].title+
+			"'</td>"+
 			"<td>"
 				+sorted[i].title+
 			"</td>"+
 			"<td class='textRight'>"+sorted[i].viewers+"</td></tr>";			
 		});
-		console.log(streams);
-
-
-
 		$('#tbody_streams').html(streams);
     });
 	
@@ -121,35 +116,28 @@
     var loadUpcomingStreams = $.ajax("http://" + endPoint + "/api/v1/streams/upcoming")
     .success(function(res) {
 		var upcoming;
-		var sorted = res.data;
-		sorted.sort(function(b,a) {
-			return a.viewers - b.viewers;
-		});
+
 		
-		$.each(sorted, function(i){
+		$.each(res.data, function(i){
 			upcoming += 
-			"<tr href="+sorted[i].url+
-				" data-id="+sorted[i].username+" class='wpcrow streams'"+
-				" title="+sorted[i].title+
+			"<tr href="+res.data[i].url+
+				" data-id="+res.data[i].id+" class='wpcrow streams'"+
+				" title='"+res.data[i].title+
 				
-			"</td>"+
+			"'</td>"+
 			"<td>"
-				+sorted[i].title+
-			"</td>"/*+
-			"<td class='textRight'>"+sorted[i].viewers+"</td></tr>"*/;			
+				+res.data[i].title+
+			"</td></tr>";			
 		});
-		console.log(streams);
         $('#tbody_upcoming').html(upcoming);
     });
 	
-    $.when(loadLiveStreams && loadUpcomingStreams).done(function() {
-      
+    $.when(loadLiveStreams, loadUpcomingStreams).done(function() {
+ 
       $('.listload').each(function(i) {
-
       });
       setTime();
     });
-
   };
 
   var update = function() {
@@ -195,10 +183,4 @@
     e.stopPropagation();
   });
 
-
-
-  setTimeout(function() {
-    // Focus fix
-    $("#nav_dd2").blur();
-  }, 200);
 })(jQuery);
