@@ -1,94 +1,93 @@
 (function($) {
-  "use strict";
+	"use strict";
 
-  $.ajaxSetup({
-    type: "GET",
-    dataType: "json",
-    success: function() {
-      $('.gif').remove();
-    },
-    error: function() {
-      $('.gif').attr('class', 'err').html("You need to <a href='" + wpcext.config.exturl + "'>upgrade</a>. Click refresh to " +
-          "retry. If problems persist contact me as soon as possible: <a href='mailto:" +
-          wpcext.config.email + "'>" + "bahbi@babbi.net</a>");
-    }
-  });
+	$.ajaxSetup({
+		type: "GET",
+		dataType: "json",
+		success: function() {
+		  $('.gif').remove();
+		},
+		error: function() {
+		  $('.gif').attr('class', 'err').html("You need to <a href='" + wpcext.config.exturl + "'>upgrade</a>. Click refresh to " +
+			  "retry. If problems persist contact me as soon as possible: <a href='mailto:" +
+			  wpcext.config.email + "'>" + "bahbi@babbi.net</a>");
+		}
+	});
 
-  var wpcext = {
-    config: {
-      version: "0.1",
-      browser: "chrome",
-      email: "wpcext@bahbi.net",
-      exturl: ""
-    },
-    settings: {
-      timeFormat: localStorage.timeFormat === "h:MMTT Z" ? "h:MMTT Z" : "H:MM Z",
-      dateFormat: localStorage.dateFormat === "d/mm/yyyy" ? "d/mm/yyyy" : "mm/d/yyyy"
-    },
-    init: function() {
-      defineDefaults();
-      onLoadAjax();
-    }
-  };
+	var wpcext = {
+		config: {
+		  version: "0.1",
+		  browser: "chrome",
+		  email: "wpcext@bahbi.net",
+		  exturl: ""
+		},
+		settings: {
+		  timeFormat: localStorage.timeFormat === "h:MMTT Z" ? "h:MMTT Z" : "H:MM Z",
+		  dateFormat: localStorage.dateFormat === "d/mm/yyyy" ? "d/mm/yyyy" : "mm/d/yyyy"
+		},
+		init: function() {
+		  defineDefaults();
+		  onLoadAjax();
+		}
+	};
 
-  // Cache Settings
-  var timeFormat = wpcext.settings.timeFormat,
-    dateFormat = wpcext.settings.dateFormat;
-	
-  var setTime = function() {
-    $('.push-tt').each(function(){
-      var $parentNode = $(this).parent();
-      var timestamp = $(this).attr('alt');
-      var newDate = new Date(timestamp*1000);
-      newDate.setHours(newDate.getHours());
-      var fulldate = format(newDate, dateFormat + " " + timeFormat);
-      var prevEventTime = $parentNode.attr('data-original-title');
-      var newEventTime = prevEventTime + "<br>" + fulldate;
-      $parentNode.attr('data-original-title', newEventTime);
-    });
-  };
+	  // Cache Settings
+	var timeFormat = wpcext.settings.timeFormat,
+		dateFormat = wpcext.settings.dateFormat;
+		
+	var setTime = function() {
+		$('.push-tt').each(function(){
+		  var $parentNode = $(this).parent();
+		  var timestamp = $(this).attr('alt');
+		  var newDate = new Date(timestamp*1000);
+		  newDate.setHours(newDate.getHours());
+		  var fulldate = format(newDate, dateFormat + " " + timeFormat);
+		  var prevEventTime = $parentNode.attr('data-original-title');
+		  var newEventTime = prevEventTime + "<br>" + fulldate;
+		  $parentNode.attr('data-original-title', newEventTime);
+		});
+	};
 
-  var setUpdatedTime = function() {
-    $('.push-tt').each(function(){
-      var $parentNode = $(this).parent();
-      var timestamp = $(this).attr('alt');
-      var newDate = new Date(timestamp*1000);
-      newDate.setHours(newDate.getHours());
-      var fulldate = format(newDate, dateFormat + " " + timeFormat);
-      var prevEventStr = $parentNode.attr('data-original-title');
-      var prevEventIndex = prevEventStr.indexOf('<br>');
-      var prevEventTime = prevEventStr.substring(0, prevEventIndex);
-      var newEventTime = prevEventTime + "<br>" + fulldate;
-      $parentNode.attr('data-original-title', newEventTime);
-    });
-  };
+	var setUpdatedTime = function() {
+		$('.push-tt').each(function(){
+		  var $parentNode = $(this).parent();
+		  var timestamp = $(this).attr('alt');
+		  var newDate = new Date(timestamp*1000);
+		  newDate.setHours(newDate.getHours());
+		  var fulldate = format(newDate, dateFormat + " " + timeFormat);
+		  var prevEventStr = $parentNode.attr('data-original-title');
+		  var prevEventIndex = prevEventStr.indexOf('<br>');
+		  var prevEventTime = prevEventStr.substring(0, prevEventIndex);
+		  var newEventTime = prevEventTime + "<br>" + fulldate;
+		  $parentNode.attr('data-original-title', newEventTime);
+		});
+	};
 
-  var defineDefaults = function() {
-    // Last Opened Tab
-    if (localStorage.lastOpenedTab !== undefined) {
-      $('#'+localStorage.lastOpenedTab).tab('show');
-    } else {
-      $('.menutab:first').tab('show');
-    }
+	var defineDefaults = function() {
+		// Last Opened Tab
+		if (localStorage.lastOpenedTab !== undefined) {
+		  $('#'+localStorage.lastOpenedTab).tab('show');
+		} else {
+		  $('.menutab:first').tab('show');
+		}
 
-    // Time Format
-    if ("H:MM Z" === timeFormat)
-      $('#twfh').addClass('active');
-    else {
-      $('#PM').addClass('active');
-    }
+		// Time Format
+		if ("H:MM Z" === timeFormat)
+		  $('#twfh').addClass('active');
+		else {
+		  $('#PM').addClass('active');
+		}
 
-    // Date Format
-    if ("d/mm/yyyy" === dateFormat) {
-      $('#dateInt').addClass('active');
-    } else {
-      $('#dateUS').addClass('active');
-    }
-  };
+		// Date Format
+		if ("d/mm/yyyy" === dateFormat) {
+		  $('#dateInt').addClass('active');
+		} else {
+		  $('#dateUS').addClass('active');
+		}
+	};
 
-  var endPoint = 'watchpeoplecode.com';
-  var onLoadAjax = function() {
-
+	var endPoint = 'watchpeoplecode.com';
+	var onLoadAjax = function() {
     // Live streams
     var loadLiveStreams = $.ajax("http://" + endPoint + "/api/v1/streams/live")
     .success(function(res) {
@@ -96,8 +95,7 @@
 		var sorted = res.data;
 		sorted.sort(function(b,a) {
 			return a.viewers - b.viewers;
-		});
-		
+		});	
 		$.each(sorted, function(i){
 			streams += 
 			"<tr href="+sorted[i].url+
@@ -116,8 +114,6 @@
     var loadUpcomingStreams = $.ajax("http://" + endPoint + "/api/v1/streams/upcoming")
     .success(function(res) {
 		var upcoming;
-
-		
 		$.each(res.data, function(i){
 			upcoming += 
 			"<tr href="+res.data[i].url+
@@ -131,23 +127,20 @@
         $('#tbody_upcoming').html(upcoming);
     });
 
-    $.when(loadLiveStreams, loadUpcomingStreams).done(function() {
-       
-       $('.listload').each(function(i) {
-        $(this).find('.wpcrow:eq(0)').tooltip({
-          html:true,
-          placement: 'bottom'
-        });
-      });
- 
-      $('.wpcrow').tooltip({
-        html:true,
-        placement: 'top'
-       });
-       setTime();
-     });
-
-   };
+	$.when(loadLiveStreams, loadUpcomingStreams).done(function() {
+		$('.listload').each(function(i) {
+			$(this).find('.wpcrow:eq(0)').tooltip({
+				html:true,
+				placement: 'bottom'
+			});
+		});
+		$('.wpcrow').tooltip({
+			html:true,
+			placement: 'top'
+		});
+		setTime();
+		});
+	};
   var update = function() {
     $('.wpcrow, .err, .tooltip').remove();
     $('.listload').html("<tr class='gif'></tr>");
