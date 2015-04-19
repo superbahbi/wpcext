@@ -122,26 +122,34 @@
 			upcoming += 
 			"<tr href="+res.data[i].url+
 				" data-id="+res.data[i].id+" class='wpcrow streams'"+
-				" title='"+res.data[i].title+
-				
-			"'</td>"+
+				" title='"+res.data[i].title+"' "+
+			"</td>"+
 			"<td>"
 				+res.data[i].title+
 			"</td></tr>";			
 		});
         $('#tbody_upcoming').html(upcoming);
     });
-	
-    $.when(loadLiveStreams, loadUpcomingStreams).done(function() {
- 
-      $('.listload').each(function(i) {
-      });
-      setTime();
-    });
-  };
 
+    $.when(loadLiveStreams, loadUpcomingStreams).done(function() {
+       
+       $('.listload').each(function(i) {
+        $(this).find('.wpcrow:eq(0)').tooltip({
+          html:true,
+          placement: 'bottom'
+        });
+      });
+ 
+      $('.wpcrow').tooltip({
+        html:true,
+        placement: 'top'
+       });
+       setTime();
+     });
+
+   };
   var update = function() {
-    $('.wpcrow, .err').remove();
+    $('.wpcrow, .err, .tooltip').remove();
     $('.listload').html("<tr class='gif'></tr>");
     onLoadAjax();
   };
@@ -149,38 +157,38 @@
   // Start Main
   wpcext.init();
 
-  $('.tab-content').on('click', '.wpcrow', function(e){
-    e.stopPropagation();
-    var url = $(this).attr('href');
-    window.open(url + "?source=wpcext");
-  });
+	$('.tab-content').on('click', '.wpcrow', function(e){
+		e.stopPropagation();
+		var url = $(this).attr('href');
+		window.open(url + "?source=wpcext");
+	});
 
-  $('.menutab').on('shown', function(e) {
-    var lastTab = e.target;
-    localStorage.lastOpenedTab = $(lastTab).attr('id');
-  });
+	$('.menutab').on('shown', function(e) {
+		var lastTab = e.target;
+		localStorage.lastOpenedTab = $(lastTab).attr('id');
+	});
 
-  $('.timeformat').click(function(){
-    timeFormat = $(this).attr('alt');
-    localStorage.timeFormat = timeFormat;
-    setUpdatedTime();
-  });
+	$('.timeformat').click(function(){
+		timeFormat = $(this).attr('alt');
+		localStorage.timeFormat = timeFormat;
+		setUpdatedTime();
+	});
 
-  $('.dateformat').click(function(){
-    dateFormat = $(this).attr('alt');
-    localStorage.dateFormat = dateFormat;
-    setUpdatedTime();
-  });
+	$('.dateformat').click(function(){
+		dateFormat = $(this).attr('alt');
+		localStorage.dateFormat = dateFormat;
+		setUpdatedTime();
+	});
 
+	$('#nav_update').click(function(){
+		update();
+	});
 
-  $('#nav_update').click(function(){
-    update();
-  });
-
-  $('.permalink').click(function(e){
-    var url = $(this).attr("data-link");
-    window.open(url);
-    e.stopPropagation();
-  });
-
+	$('.permalink').click(function(e){
+		var url = $(this).attr("data-link");
+		window.open(url);
+		e.stopPropagation();
+	});
+	
+	$('#nav_outpost').tooltip();
 })(jQuery);
