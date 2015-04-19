@@ -16,7 +16,7 @@
 
 	var wpcext = {
 		config: {
-		  version: "0.1",
+		  version: "0.4",
 		  browser: "chrome",
 		  email: "wpcext@bahbi.net",
 		  exturl: ""
